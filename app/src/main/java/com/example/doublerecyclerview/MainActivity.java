@@ -13,6 +13,8 @@ import com.alibaba.android.vlayout.DelegateAdapter;
 import com.alibaba.android.vlayout.VirtualLayoutManager;
 import com.example.doublerecyclerview.adapter.MainAdapter;
 
+import java.time.format.TextStyle;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -23,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.portrait_iv)
     ImageView portraitIv;
     @Bind(R.id.title_tv)
-    TextView titleTv;
+    StaticLayoutView titleTv;
     @Bind(R.id.setting_iv)
     ImageView settingIv;
     @Bind(R.id.recycler_view)

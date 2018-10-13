@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.doublerecyclerview.MainActivity">
 
     <android.support.v7.widget.RecyclerView
@@ -30,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"/>
 
-        <TextView
+        <com.example.doublerecyclerview.StaticLayoutView
             android:id="@+id/title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
