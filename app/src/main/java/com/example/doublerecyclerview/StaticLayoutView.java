@@ -86,8 +86,7 @@ public class StaticLayoutView extends View{
         hardCodeWidth = (int)textPaint.measureText(text.toString());
 
         layout=new StaticLayout(text,textPaint,hardCodeWidth,alignment,1.0f,0f,includepad);
-        DynamicLayout
-        setLayout(layout);
+		setLayout(layout);
     }
 
     @Override
