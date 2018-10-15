@@ -7,7 +7,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -19,8 +21,8 @@ import android.view.ViewConfiguration;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.OverScroller;
+import android.widget.Scroller;
 
-import com.example.doublerecyclerview.adapter.CustomTabAdapter;
 import com.example.doublerecyclerview.adapter.TabPagerAdapter;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
@@ -55,7 +57,7 @@ public class TabViewPager extends FrameLayout {
     private int mMaxFlingVelocity;
     private RecyclerView outRecyclerView;
     private View currentScrollView;
-    private boolean isInterFirst=true;
+    private boolean isEnterFirst =true;
     private boolean isOutFirst=true;
     private VelocityTracker mVelocityTracker;
     private ViewFlinger mViewFlinger;
@@ -144,12 +146,26 @@ public class TabViewPager extends FrameLayout {
         slidingTab.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
-                outRecyclerView.scrollToPosition(4);
+                RecyclerView.SmoothScroller scroller=new LinearSmoothScroller(mContext){
+                    @Override
+                    protected float calculateSpeedPerPixel(DisplayMetrics displayMetrics) {
+                        return 100f / displayMetrics.densityDpi;
+                    }
+                };
+                scroller.setTargetPosition(4);
+                outRecyclerView.getLayoutManager().startSmoothScroll(scroller);
             }
 
             @Override
             public void onTabReselect(int position) {
 
+            }
+        });
+        outRecyclerView.setOnFlingListener(new RecyclerView.OnFlingListener() {
+            @Override
+            public boolean onFling(int velocityX, int velocityY) {
+                Log.e("han","velocityX=="+velocityX+",velocityY=="+velocityY);
+                return false;
             }
         });
     }
@@ -160,6 +176,10 @@ public class TabViewPager extends FrameLayout {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
+        if (mVelocityTracker == null) {
+            mVelocityTracker = VelocityTracker.obtain();
+        }
+        mVelocityTracker.addMovement(event);
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
                 mInitialTouchX=(int)(event.getX()+0.5f);
@@ -172,21 +192,24 @@ public class TabViewPager extends FrameLayout {
                 if (Math.abs(dy) > mTouchSlop){ //垂直方向拦截事件
                     return true;
                 }
+            case MotionEvent.ACTION_UP:
+                mVelocityTracker.clear();
+                break;
         }
         return super.onInterceptTouchEvent(event);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        getParent().requestDisallowInterceptTouchEvent(true);
         if (mVelocityTracker == null) {
             mVelocityTracker = VelocityTracker.obtain();
         }
-        mVelocityTracker.addMovement(event);
+        MotionEvent vtev = MotionEvent.obtain(event);
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
                 mInitialTouchX=(int)(event.getX()+0.5f);
                 mInitialTouchY=(int)(event.getY()+0.5f);
+                vtev.offsetLocation(0,0);
                 break;
             case MotionEvent.ACTION_MOVE:
                 final int x = (int) (event.getX() + 0.5f);
@@ -201,12 +224,13 @@ public class TabViewPager extends FrameLayout {
                         dy=-1;
                     }
                     outRecyclerView.scrollBy(dx,dy);
+                    vtev.offsetLocation(0,dy);
                 }else {
-                    if (isInterFirst){
+                    if (isEnterFirst){
                         if (event.getAction()!=MotionEvent.ACTION_DOWN){
                             event.setAction(MotionEvent.ACTION_DOWN);
                         }
-                        isInterFirst=false;
+                        isEnterFirst =false;
                     }
                     getScrollView().onTouchEvent(event);
                 }
@@ -214,21 +238,26 @@ public class TabViewPager extends FrameLayout {
                 mLastTouchY=y;
                 break;
             case MotionEvent.ACTION_UP:
-                if (isTop()||!isInterFirst){
+                if (isTop()||!isEnterFirst){
                     getScrollView().onTouchEvent(event);
                 }else {
+                    mVelocityTracker.addMovement(event);
                     mVelocityTracker.computeCurrentVelocity(1000, mMaxFlingVelocity);
                     final float xvel = 0;
-                    final float yvel = mVelocityTracker.getYVelocity();
+                    final float yvel = -mVelocityTracker.getYVelocity(event.getPointerId(0));
                     fling((int) xvel, (int) yvel);
                 }
-                isInterFirst=true;
+                isEnterFirst =true;
                 isOutFirst=true;
                 if (mVelocityTracker!=null){
                     mVelocityTracker.clear();
                 }
                 break;
         }
+        if (mVelocityTracker != null) {
+            mVelocityTracker.addMovement(vtev);
+        }
+        vtev.recycle();
         return true;
     }
 
@@ -328,6 +357,8 @@ public class TabViewPager extends FrameLayout {
             mLastFlingX = mLastFlingY = 0;
             mScroller.fling(0, 0, velocityX, velocityY,
                     Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
+            Log.e("han","velocityX=="+velocityX+",velocityY=="+velocityY);
+            Log.e("han","mScroller.getFinalX()=="+mScroller.getFinalX()+",mScroller.getFinalY()=="+mScroller.getFinalY());
             postOnAnimation();
         }
     }
