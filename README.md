@@ -1,6 +1,6 @@
 # 仿京东我的界面效果（recyclerview+viewpager+recyclerview）
 ######效果图如下  
-![git图](https://github.com/sinbara0813/DoubleRecyclerView/1.gif)
+![git图](https://github.com/sinbara0813/DoubleRecyclerView/raw/master/1.gif)
 
 
 
