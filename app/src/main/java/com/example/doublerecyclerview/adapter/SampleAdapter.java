@@ -1,9 +1,7 @@
 package com.example.doublerecyclerview.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +11,6 @@ import android.widget.TextView;
 
 import com.alibaba.android.vlayout.DelegateAdapter;
 import com.alibaba.android.vlayout.LayoutHelper;
-import com.alibaba.android.vlayout.layout.LinearLayoutHelper;
 import com.example.doublerecyclerview.R;
 
 import butterknife.Bind;
@@ -26,7 +23,7 @@ import butterknife.ButterKnife;
 
 public class SampleAdapter extends DelegateAdapter.Adapter<SampleAdapter.ViewHolder> {
 
-    private int[] resourses=new int[]{
+    private int[] resources =new int[]{
             R.mipmap.one,R.mipmap.two,R.mipmap.third,R.mipmap.four
     };
     private int itemWidth;
@@ -52,7 +49,7 @@ public class SampleAdapter extends DelegateAdapter.Adapter<SampleAdapter.ViewHol
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.productImage.setImageResource(resourses[position%4]);
+        holder.productImage.setImageResource(resources[position%4]);
         holder.productName.setText("我是第"+position+"个商品品品品品品品品品品");
         holder.productPrice.setText("¥"+(position+1)*500);
     }

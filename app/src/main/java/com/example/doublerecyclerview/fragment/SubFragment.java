@@ -1,4 +1,4 @@
-package com.example.doublerecyclerview;
+package com.example.doublerecyclerview.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,8 +12,9 @@ import android.view.ViewGroup;
 import com.alibaba.android.vlayout.DelegateAdapter;
 import com.alibaba.android.vlayout.VirtualLayoutManager;
 import com.alibaba.android.vlayout.layout.GridLayoutHelper;
-import com.alibaba.android.vlayout.layout.StaggeredGridLayoutHelper;
+import com.example.doublerecyclerview.R;
 import com.example.doublerecyclerview.adapter.SampleAdapter;
+import com.example.doublerecyclerview.listener.ExpandListener;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

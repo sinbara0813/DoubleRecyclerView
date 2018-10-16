@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.doublerecyclerview.MainActivity">
+    tools:context="com.example.doublerecyclerview.activity.MainActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"/>
 
-        <com.example.doublerecyclerview.StaticLayoutView
+        <com.example.doublerecyclerview.view.StaticLayoutView
             android:id="@+id/title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

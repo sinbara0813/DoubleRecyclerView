@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.alibaba.android.vlayout.DelegateAdapter;
 import com.alibaba.android.vlayout.LayoutHelper;
 import com.alibaba.android.vlayout.layout.LinearLayoutHelper;
-import com.example.doublerecyclerview.TabViewPager;
+import com.example.doublerecyclerview.view.TabViewPager;
 
 /**
  * 作者:Created by sinbara on 2018/9/19.

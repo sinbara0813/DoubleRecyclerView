@@ -1,4 +1,4 @@
-package com.example.doublerecyclerview;
+package com.example.doublerecyclerview.view;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -9,7 +9,6 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SnapHelper;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -21,8 +20,10 @@ import android.view.ViewConfiguration;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.OverScroller;
-import android.widget.Scroller;
 
+import com.example.doublerecyclerview.listener.ExpandListener;
+import com.example.doublerecyclerview.R;
+import com.example.doublerecyclerview.fragment.SubFragment;
 import com.example.doublerecyclerview.adapter.TabPagerAdapter;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
@@ -35,7 +36,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by Administrator on 2018/9/11.
+ * 作者:Created by sinbara on 2018/9/19.
+ * 邮箱:hrb940258169@163.com
  */
 
 public class TabViewPager extends FrameLayout {
@@ -48,19 +50,18 @@ public class TabViewPager extends FrameLayout {
     private Context mContext;
     private TabPagerAdapter tabAdapter;
 
-    private int mInitialTouchX;
-    private int mInitialTouchY;
-    private int mLastTouchX;
-    private int mLastTouchY;
-    private int mTouchSlop;
-    private int mMinFlingVelocity;
-    private int mMaxFlingVelocity;
-    private RecyclerView outRecyclerView;
-    private View currentScrollView;
-    private boolean isEnterFirst =true;
-    private boolean isOutFirst=true;
-    private VelocityTracker mVelocityTracker;
-    private ViewFlinger mViewFlinger;
+    private int mInitialTouchX; //DOWN事件X坐标
+    private int mInitialTouchY; //DOWN事件Y坐标
+    private int mLastTouchX; //最近一次事件X坐标
+    private int mLastTouchY; //最近一次事件Y坐标
+    private int mTouchSlop; //最小移动距离
+    private int mMinFlingVelocity; //最小fling速度
+    private int mMaxFlingVelocity; //最大fling速度
+    private RecyclerView outRecyclerView; //外部recyclerview
+    private View currentScrollView; //内部recyclerview
+    private boolean isEnterFirst =true; //事件由外部处理变成内部处理的临界点
+    private VelocityTracker mVelocityTracker; //测量速度工具类
+    private ViewFlinger mViewFlinger; //处理fling事件工具类
 
     public TabViewPager(@NonNull Context context, RecyclerView outRecyclerView) {
         super(context);
@@ -78,7 +79,7 @@ public class TabViewPager extends FrameLayout {
         this.mContext=context;
         LayoutInflater.from(context).inflate(R.layout.layout_tab_view_pager, this, true);
         ButterKnife.bind(this,this);
-        viewPager.getLayoutParams().height=getDisplayHeight()-dip2px(112)-getStatusBarHeight(context);
+        viewPager.getLayoutParams().height=getDisplayHeight()-dip2px(112)-getStatusBarHeight(context); //设置viewpager高度 112viewpager滑动到顶部时到屏幕顶部的高度
         ViewConfiguration vc = ViewConfiguration.get(context);
         mTouchSlop = vc.getScaledTouchSlop();
         mMinFlingVelocity = vc.getScaledMinimumFlingVelocity();
@@ -134,7 +135,7 @@ public class TabViewPager extends FrameLayout {
 
             @Override
             public void onPageSelected(int position) {
-                currentScrollView=((ExpandListener)fragments.get(position)).getScrollableView();
+                currentScrollView=((ExpandListener)fragments.get(position)).getScrollableView();//获取当前内部滑动的recyclerview
             }
 
             @Override
@@ -149,23 +150,16 @@ public class TabViewPager extends FrameLayout {
                 RecyclerView.SmoothScroller scroller=new LinearSmoothScroller(mContext){
                     @Override
                     protected float calculateSpeedPerPixel(DisplayMetrics displayMetrics) {
-                        return 100f / displayMetrics.densityDpi;
+                        return 100f / displayMetrics.densityDpi; //这里控制滑动的速度
                     }
                 };
                 scroller.setTargetPosition(4);
-                outRecyclerView.getLayoutManager().startSmoothScroll(scroller);
+                outRecyclerView.getLayoutManager().startSmoothScroll(scroller);//让tab已一定的速度滑动到顶部
             }
 
             @Override
             public void onTabReselect(int position) {
 
-            }
-        });
-        outRecyclerView.setOnFlingListener(new RecyclerView.OnFlingListener() {
-            @Override
-            public boolean onFling(int velocityX, int velocityY) {
-                Log.e("han","velocityX=="+velocityX+",velocityY=="+velocityY);
-                return false;
             }
         });
     }
@@ -216,6 +210,7 @@ public class TabViewPager extends FrameLayout {
                 final int y = (int) (event.getY() + 0.5f);
                 int dx=mInitialTouchX-x;
                 int dy=mInitialTouchY-y;
+                //判断滑动事件由外部recyclerview处理还是内部recyclerview处理
                 if (!isTop()||(isTop()&&(mLastTouchY-y)<0&&isExpand())){
                     if ((isTop()&&(mLastTouchY-y)<0&&isExpand())){
                         mInitialTouchX=(int)(event.getX()+0.5f);
@@ -224,7 +219,7 @@ public class TabViewPager extends FrameLayout {
                         dy=-1;
                     }
                     outRecyclerView.scrollBy(dx,dy);
-                    vtev.offsetLocation(0,dy);
+                    vtev.offsetLocation(dx,dy);
                 }else {
                     if (isEnterFirst){
                         if (event.getAction()!=MotionEvent.ACTION_DOWN){
@@ -245,10 +240,9 @@ public class TabViewPager extends FrameLayout {
                     mVelocityTracker.computeCurrentVelocity(1000, mMaxFlingVelocity);
                     final float xvel = 0;
                     final float yvel = -mVelocityTracker.getYVelocity(event.getPointerId(0));
-                    fling((int) xvel, (int) yvel);
+                    fling((int) xvel, (int) yvel);//处理fling事件
                 }
                 isEnterFirst =true;
-                isOutFirst=true;
                 if (mVelocityTracker!=null){
                     mVelocityTracker.clear();
                 }
@@ -357,8 +351,6 @@ public class TabViewPager extends FrameLayout {
             mLastFlingX = mLastFlingY = 0;
             mScroller.fling(0, 0, velocityX, velocityY,
                     Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
-            Log.e("han","velocityX=="+velocityX+",velocityY=="+velocityY);
-            Log.e("han","mScroller.getFinalX()=="+mScroller.getFinalX()+",mScroller.getFinalY()=="+mScroller.getFinalY());
             postOnAnimation();
         }
     }

@@ -1,4 +1,4 @@
-package com.example.doublerecyclerview;
+package com.example.doublerecyclerview.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -11,6 +11,8 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.example.doublerecyclerview.R;
 
 /**
  * 作者:Created by sinbara on 2018/10/13.
@@ -49,7 +51,7 @@ public class StaticLayoutView extends View{
     public StaticLayoutView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context=context;
-        TypedArray a=context.obtainStyledAttributes(attrs,R.styleable.StaticLayoutView,defStyleAttr,0);
+        TypedArray a=context.obtainStyledAttributes(attrs, R.styleable.StaticLayoutView,defStyleAttr,0);
         color=a.getColor(R.styleable.StaticLayoutView_color, Color.BLACK);
         pxSize=a.getDimensionPixelSize(R.styleable.StaticLayoutView_size,-1);
         a.recycle();

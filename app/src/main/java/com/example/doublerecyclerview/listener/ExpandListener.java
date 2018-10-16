@@ -1,4 +1,4 @@
-package com.example.doublerecyclerview;
+package com.example.doublerecyclerview.listener;
 
 import android.view.View;
 

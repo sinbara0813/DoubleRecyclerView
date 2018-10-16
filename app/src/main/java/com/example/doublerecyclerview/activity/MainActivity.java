@@ -1,20 +1,17 @@
-package com.example.doublerecyclerview;
+package com.example.doublerecyclerview.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
 import com.alibaba.android.vlayout.DelegateAdapter;
 import com.alibaba.android.vlayout.VirtualLayoutManager;
+import com.example.doublerecyclerview.R;
 import com.example.doublerecyclerview.adapter.MainAdapter;
-
-import java.time.format.TextStyle;
+import com.example.doublerecyclerview.view.StaticLayoutView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
