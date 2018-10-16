@@ -54,9 +54,9 @@ public class TabViewPager extends FrameLayout {
     private int mInitialTouchY; //DOWN事件Y坐标
     private int mLastTouchX; //最近一次事件X坐标
     private int mLastTouchY; //最近一次事件Y坐标
-    private int mTouchSlop; //最小移动距离
-    private int mMinFlingVelocity; //最小fling速度
-    private int mMaxFlingVelocity; //最大fling速度
+    private int mTouchSlop; //能够识别的最小滑动
+    private int mMinFlingVelocity; //最小加速度
+    private int mMaxFlingVelocity; //最大加速度
     private RecyclerView outRecyclerView; //外部recyclerview
     private View currentScrollView; //内部recyclerview
     private boolean isEnterFirst =true; //事件由外部处理变成内部处理的临界点
