@@ -1,13 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion build_versions.target_sdk
+    buildToolsVersion build_versions.build_tools
     defaultConfig {
         applicationId "com.example.doublerecyclerview"
-        minSdkVersion 15
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+        versionCode build_versions.version_code
+        versionName build_versions.version_name
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
     }
@@ -21,15 +22,15 @@ android {
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
-    api 'com.android.support:appcompat-v7:26.1.0'
-    api 'com.android.support:recyclerview-v7:26.1.0'
-    api 'com.jakewharton:butterknife:7.0.1'
-    api 'com.android.support.constraint:constraint-layout:1.1.3'
-    api('com.alibaba.android:vlayout:1.2.8@aar') {
+    api deps.support.appcompat
+    api deps.support.recyclerview
+    api deps.butterknife
+    api deps.constraint
+    api(deps.vlayout) {
         transitive = true
         exclude group: 'com.android.support'
     }
-    api 'com.flyco.tablayout:FlycoTabLayout_Lib:2.0.0@aar'
+    api deps.tablayout
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
