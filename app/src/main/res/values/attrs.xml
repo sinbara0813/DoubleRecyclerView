@@ -4,4 +4,38 @@
         <attr name="size" format="dimension"/>
         <attr name="color" format="color"/>
     </declare-styleable>
+    <attr format="color" name="bb_barColor"/>
+    <attr format="dimension" name="bb_barPaddingBottom"/>
+    <attr format="dimension" name="bb_barPaddingLeft"/>
+    <attr format="dimension" name="bb_barPaddingRight"/>
+    <attr format="dimension" name="bb_barPaddingTop"/>
+    <attr format="integer" name="bb_delay"/>
+    <attr format="dimension" name="bb_indicatorCornerRadius"/>
+    <attr format="dimension" name="bb_indicatorGap"/>
+    <attr name="bb_indicatorGravity">
+        <enum name="CENTER" value="17"/>
+        <enum name="LEFT" value="3"/>
+        <enum name="RIGHT" value="5"/>
+    </attr>
+    <attr format="dimension" name="bb_indicatorHeight"/>
+    <attr format="color" name="bb_indicatorSelectColor"/>
+    <attr format="reference" name="bb_indicatorSelectRes"/>
+    <attr name="bb_indicatorStyle">
+        <enum name="DRAWABLE_RESOURCE" value="0"/>
+        <enum name="CORNER_RECTANGLE" value="1"/>
+    </attr>
+    <attr format="color" name="bb_indicatorUnselectColor"/>
+    <attr format="reference" name="bb_indicatorUnselectRes"/>
+    <attr format="dimension" name="bb_indicatorWidth"/>
+    <attr format="boolean" name="bb_isAutoScrollEnable"/>
+    <attr format="boolean" name="bb_isBarShowWhenLast"/>
+    <attr format="boolean" name="bb_isIndicatorShow"/>
+    <attr format="boolean" name="bb_isLoopEnable"/>
+    <attr format="boolean" name="bb_isTitleShow"/>
+    <attr format="integer" name="bb_period"/>
+    <attr format="float" name="bb_scale"/>
+    <attr format="color" name="bb_textColor"/>
+    <attr format="dimension" name="bb_textSize"/>
+    <declare-styleable name="BaseBanner"><attr name="bb_scale"/><attr name="bb_isLoopEnable"/><attr name="bb_delay"/><attr name="bb_period"/><attr name="bb_isAutoScrollEnable"/><attr name="bb_barColor"/><attr name="bb_isBarShowWhenLast"/><attr name="bb_barPaddingLeft"/><attr name="bb_barPaddingTop"/><attr name="bb_barPaddingRight"/><attr name="bb_barPaddingBottom"/><attr name="bb_textColor"/><attr name="bb_textSize"/><attr name="bb_isTitleShow"/><attr name="bb_isIndicatorShow"/><attr name="bb_indicatorGravity"/></declare-styleable>
+    <declare-styleable name="BaseIndicatorBanner"><attr name="bb_indicatorStyle"/><attr name="bb_indicatorWidth"/><attr name="bb_indicatorHeight"/><attr name="bb_indicatorGap"/><attr name="bb_indicatorSelectColor"/><attr name="bb_indicatorUnselectColor"/><attr name="bb_indicatorCornerRadius"/><attr name="bb_indicatorSelectRes"/><attr name="bb_indicatorUnselectRes"/></declare-styleable>
 </resources>
