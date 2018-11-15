@@ -327,14 +327,11 @@ public abstract class DefineBaseBanner<E, VH extends RecyclerView.ViewHolder,T e
         BannerSnapHelper snapHelper=new BannerSnapHelper() {
             @Override
             public void snapView(int adaptPosition) {
-                //Log.e("han","adaptPosition=="+adaptPosition);
                 if (adaptPosition<=0){
                     recyclerView.scrollToPosition(mDatas.size());
-                    //Log.e("han","ScrollTo>>"+mDatas.size());
                 }
                 if (adaptPosition>=(mDatas.size()+1)){
                     recyclerView.scrollToPosition(1);
-                    //Log.e("han","ScrollTo>>1");
                 }
                 mInternalPageListener.onPageSelected(adaptPosition%mDatas.size());
             }

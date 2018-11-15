@@ -160,7 +160,7 @@ public abstract class BannerSnapHelper extends RecyclerView.OnFlingListener {
         if (targetPosition == RecyclerView.NO_POSITION) {
             return false;
         }
-
+        snapView(targetPosition);
         smoothScroller.setTargetPosition(targetPosition);
         layoutManager.startSmoothScroll(smoothScroller);
         return true;
@@ -186,10 +186,6 @@ public abstract class BannerSnapHelper extends RecyclerView.OnFlingListener {
         int[] snapDistance = calculateDistanceToFinalSnap(layoutManager, snapView);
         if (snapDistance[0] != 0 || snapDistance[1] != 0) {
             mRecyclerView.smoothScrollBy(snapDistance[0], snapDistance[1]);
-        }else {
-            Log.e("han","snapView.getTag()=="+snapView.getTag());
-            Log.e("han","mRecyclerView.getChildCount()=="+mRecyclerView.getChildCount());
-            snapView((int)snapView.getTag());
         }
     }
 
