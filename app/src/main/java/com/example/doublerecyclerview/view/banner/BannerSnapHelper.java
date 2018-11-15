@@ -8,6 +8,7 @@ import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Scroller;
@@ -186,7 +187,9 @@ public abstract class BannerSnapHelper extends RecyclerView.OnFlingListener {
         if (snapDistance[0] != 0 || snapDistance[1] != 0) {
             mRecyclerView.smoothScrollBy(snapDistance[0], snapDistance[1]);
         }else {
-            snapView(mRecyclerView.getChildAdapterPosition(snapView));
+            Log.e("han","snapView.getTag()=="+snapView.getTag());
+            Log.e("han","mRecyclerView.getChildCount()=="+mRecyclerView.getChildCount());
+            snapView((int)snapView.getTag());
         }
     }
 

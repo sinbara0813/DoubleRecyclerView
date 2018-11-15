@@ -215,7 +215,9 @@ public abstract class DefineBaseBanner<E, VH extends RecyclerView.ViewHolder,T e
     public abstract VH onCreateItemViewHolder(ViewGroup parent);
 
     /** 绑定item数据 */
-    public abstract void onBindItemView(VH holder,int position);
+    public void onBindItemView(VH holder,int position){
+        holder.itemView.setTag(position);
+    };
 
     /** 创建显示器 */
     public abstract View onCreateIndicator();
@@ -316,7 +318,7 @@ public abstract class DefineBaseBanner<E, VH extends RecyclerView.ViewHolder,T e
     }
 
     private void setRecyclerView() {
-        BannerAdapter bannerAdapter=new BannerAdapter();
+        final BannerAdapter bannerAdapter=new BannerAdapter();
         final LinearLayoutManager layoutManager=new LinearLayoutManager(mContext);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
@@ -325,16 +327,20 @@ public abstract class DefineBaseBanner<E, VH extends RecyclerView.ViewHolder,T e
         BannerSnapHelper snapHelper=new BannerSnapHelper() {
             @Override
             public void snapView(int adaptPosition) {
+                //Log.e("han","adaptPosition=="+adaptPosition);
                 if (adaptPosition<=0){
                     recyclerView.scrollToPosition(mDatas.size());
+                    //Log.e("han","ScrollTo>>"+mDatas.size());
                 }
                 if (adaptPosition>=(mDatas.size()+1)){
                     recyclerView.scrollToPosition(1);
+                    //Log.e("han","ScrollTo>>1");
                 }
                 mInternalPageListener.onPageSelected(adaptPosition%mDatas.size());
             }
         };
         snapHelper.attachToRecyclerView(recyclerView);
+        recyclerView.scrollToPosition(mDatas.size());
     }
 
     private ViewPager.OnPageChangeListener mInternalPageListener = new ViewPager.OnPageChangeListener() {
@@ -471,6 +477,7 @@ public abstract class DefineBaseBanner<E, VH extends RecyclerView.ViewHolder,T e
         public int getItemCount() {
             return isLoopEnable?mDatas.size()+2:mDatas.size();
         }
+
     }
 
     protected int dp2px(float dp) {

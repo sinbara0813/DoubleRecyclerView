@@ -54,6 +54,7 @@ public class Banner extends DefineBaseIndicatorBanner<String,Banner.ViewHolder, 
     @Override
     public void onBindItemView(Banner.ViewHolder holder, int position) {
         holder.text.setBackgroundColor(position%2==0? Color.parseColor("#ff0000"):Color.parseColor("#0000ff"));
+        super.onBindItemView(holder,position);
     }
 
 /*    @Override
