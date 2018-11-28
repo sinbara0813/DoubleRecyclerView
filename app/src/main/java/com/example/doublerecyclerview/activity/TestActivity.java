@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PagerSnapHelper;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.widget.LinearLayout;
 
 import com.example.doublerecyclerview.R;
@@ -37,6 +38,8 @@ public class TestActivity extends AppCompatActivity {
             list.add("xxx");
         }
         banner.setSource(list).startScroll();
+        /*Log.e("han","onTouchEvent "+(event.getAction()== MotionEvent.ACTION_DOWN?"ACTION_DOWN":event.getAction()==MotionEvent.ACTION_MOVE?"ACTION_MOVE":
+                event.getAction()==MotionEvent.ACTION_UP?"ACTION_UP":event.getAction()));*/
     }
 
 }

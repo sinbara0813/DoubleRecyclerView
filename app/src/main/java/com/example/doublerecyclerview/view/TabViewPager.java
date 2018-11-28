@@ -173,7 +173,7 @@ public class TabViewPager extends FrameLayout {
         if (mVelocityTracker == null) {
             mVelocityTracker = VelocityTracker.obtain();
         }
-        mVelocityTracker.addMovement(event);
+        //mVelocityTracker.addMovement(event);
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
                 mInitialTouchX=(int)(event.getX()+0.5f);
@@ -187,7 +187,7 @@ public class TabViewPager extends FrameLayout {
                     return true;
                 }
             case MotionEvent.ACTION_UP:
-                mVelocityTracker.clear();
+                //mVelocityTracker.clear();
                 break;
         }
         return super.onInterceptTouchEvent(event);
@@ -236,7 +236,7 @@ public class TabViewPager extends FrameLayout {
                 if (isTop()||!isEnterFirst){
                     getScrollView().onTouchEvent(event);
                 }else {
-                    mVelocityTracker.addMovement(event);
+                    //mVelocityTracker.addMovement(event);
                     mVelocityTracker.computeCurrentVelocity(1000, mMaxFlingVelocity);
                     final float xvel = 0;
                     final float yvel = -mVelocityTracker.getYVelocity(event.getPointerId(0));
